@@ -1,0 +1,38 @@
+files:
+  - 'docker-compose.pocker.yaml'
+defaults:
+  service: php
+variables:
+  client: premier
+  project: projet
+  type: symfony
+aliases:
+  symfony:
+    description: 'Lance la console symfony'
+    commands:
+      - command: ['bin/console']
+        workdir: ~
+  composer:
+    description: 'Lance composer'
+    commands:
+      - command: ['composer']
+        workdir: ~
+  fix:
+    description: 'Lance PHP-CS-Fixer'
+    commands:
+      - command: ['php-cs-fixer', 'fix', '--verbose']
+        workdir: ~
+  install:
+    description: 'Installation du projet'
+    commands:
+      - command: ['composer', 'install']
+        workdir: ~
+      - command: ['bin/console', 'doctrine:migrations:sync-metadata-storage']
+        workdir: ~
+      - command: ['bin/console', 'doctrine:migrations:migrate', '-n']
+        workdir: ~
+  test:
+    description: 'Lance les tests'
+    commands:
+      - command: ['bin/phpunit']
+        workdir: ~

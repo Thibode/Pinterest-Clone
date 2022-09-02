@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+@import 'shared/variables.scss';
+
+@import "~bootstrap";
+
+html,body{
+    font-family: $primary-font, sans-serif;
+}
+.alert{
+    width: 100%;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    padding: 10px;
+    color: #fff;
+    text-align: center;
+
+    &.alert-success{
+    background-color: #1ab53b;
+    }
+    &.alert-error{
+    background-color: #ec2404;
+    }
+    &.alert-info{
+    background-color: #044aec;
+    }
+}

@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Entity;
+
+use App\Entity\Traits\Timestampable;
+use App\Repository\PinRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+
+#[ORM\Entity(PinRepository::class)]
+#[ORM\Table(name: 'pins')]
+#[ORM\HasLifecycleCallbacks]
+
+class Pin
+{
+    use Timestampable;
+    
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(name: 'id', type: 'integer')]    
+    private $id;
+
+    #[Assert\NotBlank(message: "Title can't be blank !")]
+    #[Assert\Length(min:3)]
+    #[ORM\Column(name: 'title', type: 'string', length: 255)]    
+    private $title;
+
+    #[Assert\NotBlank(message: "Description can't be blank !")]
+    #[Assert\Length(min:10)]
+    #[ORM\Column(name: 'description', type: 'text')]    
+    private $description;
+
+   
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+}

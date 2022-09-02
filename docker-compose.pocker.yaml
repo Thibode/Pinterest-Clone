@@ -1,0 +1,57 @@
+version: "3"
+
+networks:
+  default:
+    driver: bridge
+  pocker:
+    external:
+      name: pocker-proxy
+
+volumes:
+  data-postgresql:
+
+services:
+  php:
+    build: ./docker/php
+    environment:
+      PHP_UID: ${PHP_UID:-1000}
+      PHP_GID: ${PHP_GID:-1000}
+      DOCKER_IP: ${DOCKER_IP}
+    depends_on:
+      - sql
+    volumes:
+      - '~/.composer/:/home/httpd/.composer'
+      - './:/home/httpd/premier/projet'
+      - '~/.ssh/:/home/httpd/.ssh/'
+      - '${SSH_AUTH_SOCK}:${SSH_AUTH_SOCK}'
+  web:
+    image: nginx:1.19
+    depends_on:
+      - php
+    environment:
+      VIRTUAL_HOST: premierprojet.*
+      HTTPS_METHOD: noredirect
+    volumes:
+      - './docker/web/nginx.conf:/etc/nginx/conf.d/default.conf:ro'
+      - './:/home/httpd/premier/projet:ro'
+    networks:
+      - pocker
+      - default
+  sql:
+    image: postgres:${POSTGRES_VERSION:-14.2}
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: sasql
+      POSTGRES_DB: admin
+    volumes:
+      - 'data-postgresql:/var/lib/postgresql/data'
+  phppgadmin:
+    image: bitnami/phppgadmin:latest
+    depends_on:
+      - sql
+    environment:
+      DATABASE_HOST: sql
+      VIRTUAL_HOST: pgadmin.premierprojet.dev.test
+    networks:
+      - pocker
+      - default
