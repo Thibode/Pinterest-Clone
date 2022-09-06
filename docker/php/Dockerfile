@@ -28,6 +28,7 @@ RUN curl -L https://packages.sury.org/php/apt.gpg -o /etc/apt/trusted.gpg.d/php.
     php${PHP_VERSION}-pgsql \
     php${PHP_VERSION}-intl \
     php${PHP_VERSION}-zip \
+    php${PHP_VERSION}-gd \
     && rm -r /var/lib/apt/lists/* \
     && apt-get purge -y --auto-remove
 

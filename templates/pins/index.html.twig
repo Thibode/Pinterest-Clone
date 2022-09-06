@@ -3,20 +3,39 @@
 {% block title 'Find all the best pins on earth' %}
 
 {% block body %}
-            <h1>{{ pluralize(pins|length, 'pin') }}</h1>
+    {% if pins|length > 0 %}
+        <h1 class="mb-4 text-center text-muted">{{ pluralize(pins|length, 'pin') }}</h1>
 
-                {% for pin in pins %}
+        {% for row in pins|batch(3) %}
+            <div class="row mb-5">
 
-                    <article>
-                        <h2><a href="{{ path('app_pins_show', { 'id': pin.id }) }}">{{ pin.title }}</a></h2> 
-                        <p>{{ pin.description|u.truncate(30, '...', true) }}</p>
-                        <p>Submitted at {{ pin.createdAt|ago }}</p>
+            {% for pin in row %}
+                {% set pin_path = vich_uploader_asset(pin) %}
+                <div class="col-md-4">
+                    <article class="pin bg-white rounded shadow">
+                        <div class="mw-100 overflow-hidden rounded-top">
+                            <a href="{{ path('app_pins_show', { 'id': pin.id }) }}">
+                                <img src="{{ (pin.imageName ? pin_path : asset('images/placeholder.jpg')) | imagine_filter('squared_thumbnail_medium') }}" alt="{{ pin.title }}" class="w-100">
+                            </a>
+                        </div>
+                        <h2 class="h5 pt-3 ps-3">
+                            <a href="{{ path('app_pins_show', { 'id': pin.id }) }}" class="text-secondary text-decoration-none">{{ pin.title }}</a>
+                        </h2> 
+                        {# <p>{{ pin.description|u.truncate(30, '...', true) }}</p> #}
+                        {# <p>Submitted at {{ pin.createdAt|ago }}</p> #}
+                        <p class="pb-3 ps-3 text-muted"><small>Submitted [OWNER FULL NAME]</small></p>
                     </article>
+                </div>
 
-                    {% else %}
+            {% endfor %}
 
-                    <p>Sorry, no pins yet !</p>
+            </div>
 
-                {% endfor %}
+        {% endfor %}
 
+    {% else %}
+
+        <p class="mt-5 h1 text-center">Sorry, no pins yet ! <a href="{{ path('app_pins_create')}}">Be the first</a></p>
+    
+    {% endif %}
 {% endblock %}
