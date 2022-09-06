@@ -42,6 +42,10 @@ class Pin
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageName = null;
 
+    #[ORM\ManyToOne(inversedBy: 'pins')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $owner = null;
+
    
     public function getId(): ?int
     {
@@ -99,6 +103,18 @@ class Pin
     public function setImageName(?string $imageName): self
     {
         $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }

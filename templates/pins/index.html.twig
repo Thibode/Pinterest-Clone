@@ -21,9 +21,7 @@
                         <h2 class="h5 pt-3 ps-3">
                             <a href="{{ path('app_pins_show', { 'id': pin.id }) }}" class="text-secondary text-decoration-none">{{ pin.title }}</a>
                         </h2> 
-                        {# <p>{{ pin.description|u.truncate(30, '...', true) }}</p> #}
-                        {# <p>Submitted at {{ pin.createdAt|ago }}</p> #}
-                        <p class="pb-3 ps-3 text-muted"><small>Submitted [OWNER FULL NAME]</small></p>
+                        <p class="pb-3 ps-3 text-muted"><small>Submitted by {{ pin.owner.fullName }}</br>{{ pin.createdAt|ago }}</small></p>
                     </article>
                 </div>
 
