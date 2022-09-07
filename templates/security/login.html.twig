@@ -1,0 +1,40 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<div class="row">
+        <div class="col-md-6 mx-auto">
+            <form method="post">
+                {% if error %}
+                    <div class="mb-3 alert alert-error rounded">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                
+                <h1 class="mt-3 mb-3 font-weight-normal text-center">Please sign in</h1>
+                <p class="mb-3 text-center text-muted">Time to add some new pins !</p>
+
+                <label for="email" class="mb-3 mt-3">Email</label>
+                <input type="email" value="{{ last_username }}" name="email" id="email" class="form-control" autocomplete="email" required autofocus>
+                <label for="password" class="mb-3 mt-3">Password</label>
+                <input type="password" name="password" id="password" class="form-control" autocomplete="current-password" required>
+
+                <div class="d-flex justify-content-between">
+                    <div class="checkbox mt-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Remember me
+                        </label>
+                    </div>
+
+                    <a href="#" class="mt-3">Forgot password ?</a>
+                </div>
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <button class="mt-4 mb-3 p-2 btn btn-primary btn-block w-100" type="submit">
+                    Sign in
+                </button>
+                <p class=" mt-4 mb-3 text-center text-muted">Not registered yet ? <a href="#">Create an account</a></p>
+            </form>
+        </div>
+</div>
+{% endblock %}

@@ -22,7 +22,8 @@
                     <p class="pt-3 text-break">
                         {{ pin.description }}
                     </p>
-
+                {% if app.user %}
+   
                     <div class="p-3">
                         <a href="{{ path('app_pins_edit', {'id': pin.id}) }}" class="btn btn-light">Edit</a> 
                         <a href="#" onclick="event.preventDefault(); confirm('Are you sure ?') &&
@@ -31,10 +32,12 @@
                         <!--Formulaire de suppression caché-->
                         <form id="js-pin-delete-form" action="{{ path('app_pins_delete', {'id': pin.id}) }}" method="DELETE" style="display:none">
 
-                            {# <input type="hidden" name="csrf_token" value="{{csrf_token('pin_deletion' ~ pin.id) }}">  #}
+                            <input type="hidden" name="csrf_token" value="{{csrf_token('pin_deletion_' ~ pin.id) }}">  
 
                             <input type="hidden" name="_method" value="DELETE">
                             <input type="submit" value="Delete">
+              
+                {% endif %}
                         </form>
                     </div>
                 </div>

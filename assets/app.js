@@ -10,3 +10,16 @@ import './scss/app.scss';
 
 // start the Stimulus application
 import './bootstrap';
+
+
+
+
+//Set timeout for my flash messages 
+
+$("document").ready(function(){
+    setTimeout(function(){
+        $("div.alert").remove();
+    }, 3000 ); // 3 secs
+
+});
+

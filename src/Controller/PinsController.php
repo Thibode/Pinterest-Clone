@@ -11,8 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Validator\Constraints\Length;
-use Liip\ImagineBundle\LiipImagineBundle; 
-
+use Liip\ImagineBundle\LiipImagineBundle;
+use Symfony\Component\Security\Core\Security;
 
 class PinsController extends AbstractController
 {
@@ -40,6 +40,11 @@ class PinsController extends AbstractController
     
     public function edit(Request $request, EntityManagerInterface $em, Pin $pin): Response
     {
+        if (!$this->getUser()) {
+            $this->addFlash('error', 'You are not connected !');
+            return $this->redirectToRoute('app_home');
+        }
+
         $form = $this->createForm(PinType::class, $pin, [
             'method' => 'PUT'
         ]);
@@ -65,7 +70,7 @@ class PinsController extends AbstractController
     
     public function delete(Request $request, EntityManagerInterface $em, Pin $pin): Response
     {
-        // if($this->isCsrfTokenValid('pin_deletion' . $pin->getId(), $request->request->get('csrf_token'))) {
+        // if($this->isCsrfTokenValid('pin_deletion_' . $pin->getId(), $request->request->get('csrf_token'))) {
 
         $em->remove($pin);
         $em->flush();
@@ -78,8 +83,12 @@ class PinsController extends AbstractController
 
     #[Route('/pins/create', name:'app_pins_create', methods:['GET', 'POST'])]
         
-     public function create(Request $request, EntityManagerInterface $em): Response
+     public function create(Request $request, EntityManagerInterface $em, Security $security): Response
     {
+        if (!$this->getUser()) {
+            $this->addFlash('error', 'You are not connected !');
+            return $this->redirectToRoute('app_home');
+        }
 
         $pin = new Pin;
 
@@ -89,6 +98,7 @@ class PinsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()){
             
+            $pin->setOwner($security->getUser());
             $em->persist($pin);
             $em->flush();
 
