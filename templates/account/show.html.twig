@@ -11,7 +11,8 @@
 
             <p class="lead">{{ app.user.email }}</p>
             <p class="h2 mb-3">{{ app.user.fullName }}</p>
-            <p><a href="#">Edit Profile</a> | <a href="#">Change password</a></p>
+            <p class="text-center text-muted"><small>Account created on {{ app.user.createdAt|date('d/m/Y') }}</small></p>
+            <p><a href="{{ path('app_account_edit') }}">Edit Profile</a> | <a href="{{ path('app_pins_create') }}">Create Pin</a> | <a href="{{ path('app_home') }}">Back Home</a></p>
         </div>
     </div>
 {% endblock %}
