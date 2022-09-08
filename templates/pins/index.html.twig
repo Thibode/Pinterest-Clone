@@ -8,7 +8,6 @@
 
         {% for row in pins|batch(3) %}
             <div class="row mb-5">
-
             {% for pin in row %}
                 {% set pin_path = vich_uploader_asset(pin) %}
                 <div class="col-md-4">
@@ -21,7 +20,7 @@
                         <h2 class="h5 pt-3 ps-3">
                             <a href="{{ path('app_pins_show', { 'id': pin.id }) }}" class="text-secondary text-decoration-none">{{ pin.title }}</a>
                         </h2> 
-                        <p class="pb-3 ps-3 text-muted"><small>Submitted by {{ pin.owner.fullName }}</br>{{ pin.createdAt|ago }}</small></p>
+                        <p class="pb-3 ps-3 text-muted"><small>Submitted by {{ pin.owner.fullName }}</br>{{ pin.createdAt|ago }}</small></p> 
                     </article>
                 </div>
 

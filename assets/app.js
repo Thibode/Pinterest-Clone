@@ -18,7 +18,7 @@ import './bootstrap';
 
 $("document").ready(function(){
     setTimeout(function(){
-        $("div.alert").remove();
+        $("div.alert").slideUp(700);
     }, 3000 ); // 3 secs
 
 });
