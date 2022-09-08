@@ -25,6 +25,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #UniqueEntity(fields={"email"}, message="There is already an account with this email !")
     private ?string $email = null;
 
     #[ORM\Column]
@@ -211,5 +212,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->isVerified = $isVerified;
 
         return $this;
+    }
+    public function gravatar(?int $size = 150) 
+    {
+        return 'https://www.gravatar.com/avatar/'. md5(strtolower(trim($this->getEmail()))) .'/?s='. $size;
     }
 }
